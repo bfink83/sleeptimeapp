@@ -1,32 +1,50 @@
+let root = document.getElementById("root");
+
+let p = document.createElement("p");
+p.innerText = "If you go to bed NOW, you should wake up at...";
+root.append(p);
+
+let zzz = document.createElement("button");
+zzz.innerText = "zzz";
+zzz.addEventListener("click", zzzOnClick);
+root.append(zzz);
+
+let output = document.createElement("div");
+output.className = "output";
+root.append(output);
+
+output.innerHTML = `
+<p>It takes the average human fourteen minutes to fall asleep.</p>
+<p>If you head to bed right now, you should try to wake up at one of the following times:</p>
+<p id="hours">11:44 PM or 1:14 AM or 2:44 AM or 4:14 AM or 5:44 AM or 7:14 AM</p>
+<p>A good night's sleep consists of 5-6 complete sleep cycles.</p>`;
+
 function zzzOnClick() {
     let output = document.querySelector(".output");
-    if (output.style.display === "block") {
-        output.style.display = "none";
-    } else {
-        output.style.display = "block";
-    }
+    output.style.display = "block";
     let hours = "";
-
-    //get current time
-    let now = Date.now();
-    let minute = 60 * 1000;
+  
+    // get current time
+    let now = Date.now(); // in milliseconds
+    let minute = 60 * 1000;  // milliseconds
     let cycle = now;
-    //allow 14 min to fall asleep
+  
+    // allow 14 minutes to fall sleep 
     cycle += 14 * minute;
-
-    // calculate six sleep cycles
-    for (let i = 0; i < 6; i++) {
-        cycle += 90 * minute;
-        hours += new Date(cycle).toLocaleTimeString([], {hour: '2,digit', minute: '2-digit'});
-        if (i < 5) {
-            hours += " or ";
-        }
+  
+    // calculate 6 sleep cycles (each 90 minutes)
+    for(let i = 0; i < 6; i++) {
+      cycle += 90 * minute;
+  
+      // append the sleep cycles to hours string
+      hours += new Date(cycle).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+      if (i < 5) {
+        hours += " OR ";
+      }
     }
-    
-
-    //append the hours with the formatted sleep cycles
-    
-
-    let hoursElm = document.querySelector(".hours");
+  
+    // output hours
+    let hoursElm = document.querySelector("#hours");
     hoursElm.innerText = hours;
-}
+  }
